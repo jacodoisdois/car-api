@@ -7,7 +7,11 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should show user' do
-    get api_v1_user_url(@user), as: :json
+    get api_v1_user_url(@user),
+        headers: {
+          Authorization: JsonWebToken.encode(user_id: @user.id)
+        },
+        as: :json
     assert_response :success
 
     json_response = JSON.parse(response.body)
@@ -46,17 +50,16 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should not update user when invalid params are sent' do
     patch api_v1_user_url(@user),
-    params: { user:
-      {
-        email: 'bad_email',
-        password: '123456',
-        name: 'Brincan ciclan'
-        }
-      },
-      headers: {
-        Authorization: JsonWebToken.encode(user_id: @user.id)
-      },
-    as: :json
+          params: { user:
+            {
+              email: 'bad_email',
+              password: '123456',
+              name: 'Brincan ciclan'
+            } },
+          headers: {
+            Authorization: JsonWebToken.encode(user_id: @user.id)
+          },
+          as: :json
     assert_response :unprocessable_entity
   end
 
@@ -75,14 +78,14 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "should destroy user" do
+  test 'should destroy user' do
     assert_difference('User.count', -1) do
       delete api_v1_user_url(@user), headers: { Authorization: JsonWebToken.encode(user_id: @user.id) }, as: :json
     end
     assert_response :no_content
   end
 
-  test "should forbid destroy user" do
+  test 'should forbid destroy user' do
     assert_no_difference('User.count') do
       delete api_v1_user_url(@user), as: :json
     end
