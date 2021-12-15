@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Wesley Santos
+  email: wesleysantos@gmail.com
+  phone: 11965238790
+
+two:
+  name: Afonso Henrique
+  email: afonsohenrique@gmail.com
+  phone: 11923538790
