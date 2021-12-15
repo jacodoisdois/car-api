@@ -33,6 +33,21 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'should not create user with taken email' do
+    assert_no_difference('User.count') do
+      post api_v1_users_url,
+           params: {
+             user: {
+               email: @user.email,
+               password: '12312333',
+               name: 'User name'
+             }
+           },
+           as: :json
+    end
+    assert_response :unprocessable_entity
+  end
+
   test 'should forbid update user' do
     patch api_v1_user_url(@user), params: { user: { email: @user.email } }, as: :json
     assert_response :forbidden
@@ -60,21 +75,6 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
             Authorization: JsonWebToken.encode(user_id: @user.id)
           },
           as: :json
-    assert_response :unprocessable_entity
-  end
-
-  test 'should not create user with taken email' do
-    assert_no_difference('User.count') do
-      post api_v1_users_url,
-           params: {
-             user: {
-               email: @user.email,
-               password: '12312333',
-               name: 'User name'
-             }
-           },
-           as: :json
-    end
     assert_response :unprocessable_entity
   end
 

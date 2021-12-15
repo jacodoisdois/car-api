@@ -17,5 +17,3 @@ class Api::V1::TokensController < ApplicationController
     params.require(:user).permit(:email, :password)
   end
 end
-
-
