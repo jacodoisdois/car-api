@@ -1,7 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
-  before_action :set_user, only: %i[show create update]
-  before_action :check_user, only: %i[show create update]
-  before_action :set_customer, only: %i[update]
+  before_action :set_user, only: %i[show create update destroy]
+  before_action :check_user, only: %i[show create update destroy]
+  before_action :set_customer, only: %i[update destroy]
 
   def show
     render json: Customer.find(params[:id])
@@ -23,6 +23,11 @@ class Api::V1::CustomersController < ApplicationController
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @customer.destroy
+    head 204
   end
 
   private

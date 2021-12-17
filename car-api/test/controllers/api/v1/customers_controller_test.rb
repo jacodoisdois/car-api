@@ -64,13 +64,30 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not update customer when invalid params are sent' do
-    patch api_v1_customer_url(@customer).
-    params:{
-      customer:{
-        email: 'bad_email',
-        phone: 123123,
-        name: 123
-      }
-    }
+    patch api_v1_customer_url(@customer),
+          params: {
+            customer: {
+              email: 'bad_email',
+              phone: 123123,
+              name: 123
+            }
+          },
+          headers: {
+            Authorization: JsonWebToken.encode(user_id: @user.id)
+          },
+          as: :json
+
+    assert_response :unprocessable_entity
+  end
+
+  test 'should destroy a customer' do
+    assert_difference('Customer.count', -1) do
+      delete api_v1_customer_url(@customer),
+      headers: {
+        Authorization: JsonWebToken.encode(user_id: @user.id)
+      },
+      as: :json
+    end
+    assert_response :no_content
   end
 end
