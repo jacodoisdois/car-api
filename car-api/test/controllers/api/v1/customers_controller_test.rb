@@ -36,7 +36,7 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should not create user with taken email' do
+  test 'should not create customer with taken email' do
     assert_no_difference('Customer.count') do
       post api_v1_customers_url,
            params: {
@@ -51,5 +51,26 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
            },
            as: :json
     end
+  end
+
+  test 'should update customer' do
+    patch api_v1_customer_url(@customer),
+          params: { customer: { email: @customer.email } },
+          headers: {
+            Authorization: JsonWebToken.encode(user_id: @user.id)
+          },
+          as: :json
+    assert_response :success
+  end
+
+  test 'should not update customer when invalid params are sent' do
+    patch api_v1_customer_url(@customer).
+    params:{
+      customer:{
+        email: 'bad_email',
+        phone: 123123,
+        name: 123
+      }
+    }
   end
 end

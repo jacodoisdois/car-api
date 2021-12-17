@@ -1,6 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
-  before_action :set_user, only: %i[show create]
-  before_action :check_user, only: %i[show create]
+  before_action :set_user, only: %i[show create update]
+  before_action :check_user, only: %i[show create update]
+  before_action :set_customer, only: %i[update]
 
   def show
     render json: Customer.find(params[:id])
@@ -16,14 +17,26 @@ class Api::V1::CustomersController < ApplicationController
     end
   end
 
+  def update
+    if @customer.update(customer_params)
+      render json: @customer, status: :ok
+    else
+      render json: @customer.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def customer_params
-    params.require(:customer).permit(:name, :email, :phone)
+    params.require(:customer).permit(:id, :name, :email, :phone)
   end
 
   def set_user
-    @user = User.find(JsonWebToken.decode(request.headers['Authorization'])["user_id"])
+    @user = User.find(JsonWebToken.decode(request.headers['Authorization'])['user_id'])
+  end
+
+  def set_customer
+    @customer = Customer.find(params[:id])
   end
 
   def check_user
