@@ -5,7 +5,7 @@ class CreateServices < ActiveRecord::Migration[6.1]
       t.decimal :price
       t.text :description
       t.datetime :scheduled_time
-      t.int :duration
+      t.integer :duration
 
       t.timestamps
     end
