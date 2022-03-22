@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  price: 1.5
+  description: MyText
+  scheduled_time: 2022-03-22 02:34:56
+  duration: 
+
+two:
+  title: MyString
+  price: 1.5
+  description: MyText
+  scheduled_time: 2022-03-22 02:34:56
+  duration: 
