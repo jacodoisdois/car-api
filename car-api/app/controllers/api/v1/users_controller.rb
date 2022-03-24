@@ -27,7 +27,7 @@ class Api::V1::UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    head 204
+    head :no_content
   end
 
   def set_user
@@ -37,7 +37,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:id, :email, :password, :name)
+    params.require(:user).permit(:id, :email, :password, :name, :nickname)
   end
 
   def check_owner

@@ -42,5 +42,7 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'bcrypt', '~> 3.1'
-
-gem "jwt", "~> 2.3"
+gem 'jwt', '~> 2.3'
+gem 'rails_performance', '~> 1.0', '>= 1.0.1'
+gem 'rubocop-performance'
+gem 'rubocop-rails', '~> 2.14', '>= 2.14.2'

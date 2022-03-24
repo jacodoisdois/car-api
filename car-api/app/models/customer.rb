@@ -1,5 +1,13 @@
 class Customer < ApplicationRecord
-  validates :phone, length: { minimum: 11, maximum: 11 }
-  validates :name, presence: true, length: { maximum: 60 }
+  has_one :phone, dependent: :destroy
+  has_many :cars, dependent: :destroy
+  has_many :addresses, dependent: :destroy
+
+  validates :name, presence: true, length: { maximum: 150 }
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true
+  validates :birth_date, presence: true
+
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+  accepts_nested_attributes_for :phone
+  accepts_nested_attributes_for :cars, allow_destroy: true
 end
