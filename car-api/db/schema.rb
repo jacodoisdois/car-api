@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
     t.string "district"
     t.string "city"
     t.string "state"
-    t.string "description"
     t.string "zip_code"
     t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
@@ -30,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
   create_table "cars", force: :cascade do |t|
     t.string "model"
     t.string "brand"
+    t.string "color"
     t.integer "year"
     t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
@@ -40,11 +40,12 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
   create_table "customers", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
-    t.bigint "social_security"
-    t.date "date_birth", null: false
-    t.date "last_time_purchase"
+    t.bigint "social_security_number"
+    t.date "birth_date", null: false
+    t.date "last_purchase_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
   end
 
   create_table "phones", force: :cascade do |t|
@@ -78,11 +79,13 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
-    t.string "nickname", null: false
-    t.string "email", null: false
+    t.string "nickname"
+    t.string "email"
     t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["nickname"], name: "index_users_on_nickname", unique: true
   end
 
   add_foreign_key "addresses", "customers"

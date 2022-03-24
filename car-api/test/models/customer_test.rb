@@ -1,25 +1,18 @@
-require "test_helper"
+require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
   test 'customer with a valid email shoud be valid' do
-    customer = Customer.new(email: 'customertest@gmail.com', name: 'Marley Santos', phone: 11990022323)
+    customer = Customer.new(email: 'customertest@gmail.com', name: 'Marley Santos', social_security_number: 123_452_393,
+                            birth_date: '02-02-1993')
     assert customer.valid?
   end
 
   test 'customer with a invalid email should be invalid' do
-    customer = Customer.new(email: 'customergmail.com', name: 'Marley Barbosa', phone: 11990022323)
-    assert_not customer.valid?
-  end
-
-  test 'customer with a invalid phone should be invalid' do
-    customer = Customer.new(email: 'customergmail.com', name: 'Marley Barbosa', phone: 11990023)
-    assert_not customer.valid?
-  end
-  test 'customer with a invalid name should be invalid' do
-    customer = Customer.new(email: 'customergmail.com', name: 'Marley Barbosa da silva sauro benedito santos pedro da silva', phone: 11990023)
+    customer = Customer.new(email: 'customergmail.com', name: 'Marley Barbosa', social_security_number: 123_452_393,
+                            birth_date: '02-02-1993')
     assert_not customer.valid?
   end
 end

@@ -1,6 +1,6 @@
 class Api::V1::CustomersController < ApplicationController
   before_action :set_user, only: %i[show create update destroy]
-  before_action :check_user, only: %i[show create update destroy]
+  before_action :check_login, only: %i[show create update destroy]
   before_action :set_customer, only: %i[update destroy]
 
   def show
@@ -11,7 +11,7 @@ class Api::V1::CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      render json: @customer, status: :created
+      render json: @customer, include: [:addresses], status: :created
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -27,13 +27,19 @@ class Api::V1::CustomersController < ApplicationController
 
   def destroy
     @customer.destroy
-    head 204
+    head :no_content
   end
 
   private
 
   def customer_params
-    params.require(:customer).permit(:id, :name, :email, :phone)
+    params.require(:customer).permit(:id, :name, :email, :social_security_number, :birth_date,
+                                     :last_purchase_date,
+                                     addresses_attributes: %i[
+                                       id address district city state zip_code number _destroy
+                                     ],
+                                     phone_attributes: %i[id country_code local_code number],
+                                     cars_attributes: %i[id model brand year color _destroy])
   end
 
   def set_user
@@ -42,10 +48,5 @@ class Api::V1::CustomersController < ApplicationController
 
   def set_customer
     @customer = Customer.find(params[:id])
-  end
-
-  def check_user
-    puts request.headers
-    head :forbidden unless @user.id == current_user&.id
   end
 end

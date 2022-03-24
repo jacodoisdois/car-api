@@ -24,8 +24,9 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
            params: {
              user: {
                name: 'Jonas brother',
-               email: 'testertest123@gmail.com',
-               password: '123456as'
+               email: 'jonasjohn@gmail.com',
+               password: '123456as',
+               nickname: 'buxodegalo'
              }
            },
            as: :json
@@ -40,7 +41,24 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
              user: {
                email: @user.email,
                password: '12312333',
-               name: 'User name'
+               name: 'User name',
+               nickname: 'usuariotestado'
+             }
+           },
+           as: :json
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test 'should not create user with taken nickname' do
+    assert_no_difference('User.count') do
+      post api_v1_users_url,
+           params: {
+             user: {
+               email: 'joaosantos@gmail.com',
+               password: '12312333',
+               name: 'User name',
+               nickname: @user.nickname
              }
            },
            as: :json
@@ -69,7 +87,8 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
             {
               email: 'bad_email',
               password: '123456',
-              name: 'Brincan ciclan'
+              name: 'Brincan ciclan',
+              nickname: 'jackiechan'
             } },
           headers: {
             Authorization: JsonWebToken.encode(user_id: @user.id)
