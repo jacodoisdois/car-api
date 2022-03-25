@@ -6,6 +6,7 @@ class Customer < ApplicationRecord
   validates :name, presence: true, length: { maximum: 150 }
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }, presence: true
   validates :birth_date, presence: true
+  validates :social_security_number, length: { minimum: 10, maximum: 11 }
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :phone

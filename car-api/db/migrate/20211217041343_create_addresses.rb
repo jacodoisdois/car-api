@@ -8,6 +8,7 @@ class CreateAddresses < ActiveRecord::Migration[6.1]
       t.string :city
       t.string :state
       t.string :zip_code
+      t.boolean :main_address
 
       t.belongs_to :customer, index: { unique: true }, foreign_key: true
       t.timestamps

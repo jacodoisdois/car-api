@@ -3,9 +3,13 @@
 one:
   name: Wesley Santos
   email: tester.test2@gmail.com
+  social_security_number: 23987634511
   birth_date: "03-05-1993"
+  last_purchase_date:
 
 two:
   name: Afonso Henrique
   email: afonsohenrique@gmail.com
+  social_security_number: 42937734511
   birth_date: "03-05-1987"
+  last_purchase_date: "02-10-1998"
