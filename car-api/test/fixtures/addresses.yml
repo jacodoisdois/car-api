@@ -1,17 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  number: 1
-  address: MyString
-  district: MyString
-  zip_code: 1
-  state: MyString
-  city: MyString
+  address: "Rua Santos Correa Silva"
+  address_line_two: ""
+  number: 54
+  district: "Vila mendes"
+  city: "Sergipe"
+  state: "DF"
+  zip_code: "07034030"
+  main_address: true
 
 two:
-  number: 1
-  address: MyString
-  district: MyString
-  zip_code: 1
-  state: MyString
-  city: MyString
+  address: "Rua Silva Santos"
+  address_line_two: "Apt 23"
+  number: 140
+  district: "Brooklyn"
+  city: "Petrópolis"
+  state: "RJ"
+  zip_code: "07044030"
+  main_address: false

@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
     t.string "city"
     t.string "state"
     t.string "zip_code"
+    t.boolean "main_address"
     t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

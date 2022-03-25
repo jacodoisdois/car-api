@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  model: MyString
-  brand: MyString
-  year: 
+  model: "C3"
+  brand: "Citroen"
+  year: 2003
 
 two:
-  model: MyString
-  brand: MyString
-  year: 
+  model: "Cruiser"
+  brand: "Volkswagen"
+  year: 2010

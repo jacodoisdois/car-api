@@ -32,7 +32,7 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
                  number: 130,
                  district: 'Vila Rio',
                  city: 'Merengué',
-                 state: 'Minas Gerais',
+                 state: 'MG',
                  main_address: true,
                  zip_code: '07054010'
                }],
