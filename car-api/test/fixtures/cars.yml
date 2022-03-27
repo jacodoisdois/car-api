@@ -4,8 +4,10 @@ one:
   model: "C3"
   brand: "Citroen"
   year: 2003
+  color: "Black"
 
 two:
   model: "Cruiser"
   brand: "Volkswagen"
   year: 2010
+  color: "Black"

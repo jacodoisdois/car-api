@@ -2,10 +2,18 @@ require 'test_helper'
 
 class CustomerTest < ActiveSupport::TestCase
   def setup
+    @address = addresses(:one)
+    @phone = phones(:one)
+    @car = cars(:one)
     @customer = Customer.new(email: 'jacomagalhaes@gmail.com',
                              name: 'Marley Santos',
                              social_security_number: 1_234_567_891,
-                             birth_date: '02-02-1993')
+                             birth_date: '02-02-1993', addresses: [@address],
+                             phone: @phone, cars: [@car])
+  end
+
+  test 'customer parameters are valid should be valid' do
+    assert @customer.valid?, @customer.errors.full_messages
   end
 
   test 'customer with a valid email should be valid' do
