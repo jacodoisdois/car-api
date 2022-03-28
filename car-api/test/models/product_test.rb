@@ -3,7 +3,7 @@ require 'test_helper'
 class ProductTest < ActiveSupport::TestCase
   def setup
     @product = Product.new(title: 'Motor fluid 1lt.', description: 'Motor fluid for motors', price: 10.99,
-                           quantity: 1000)
+                           quantity: 1)
   end
 
   test 'product parameters are valid should be valid' do

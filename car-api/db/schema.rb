@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_22_053610) do
+ActiveRecord::Schema.define(version: 2022_03_27_231142) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "address"
@@ -49,6 +49,36 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
     t.index ["email"], name: "index_customers_on_email", unique: true
   end
 
+  create_table "order_products", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "product_id", null: false
+    t.decimal "total", precision: 10, scale: 2
+    t.integer "quantity", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_order_products_on_order_id"
+    t.index ["product_id"], name: "index_order_products_on_product_id"
+  end
+
+  create_table "order_services", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "service_id", null: false
+    t.integer "service_duration", null: false
+    t.datetime "scheduled_time", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_order_services_on_order_id"
+    t.index ["service_id"], name: "index_order_services_on_service_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+  end
+
   create_table "phones", force: :cascade do |t|
     t.string "country_code"
     t.string "local_code"
@@ -63,7 +93,7 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
     t.string "title"
     t.text "description"
     t.decimal "price"
-    t.integer "quantity"
+    t.integer "quantity", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -72,8 +102,6 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
     t.string "title"
     t.decimal "price"
     t.text "description"
-    t.datetime "scheduled_time"
-    t.integer "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -91,5 +119,10 @@ ActiveRecord::Schema.define(version: 2022_03_22_053610) do
 
   add_foreign_key "addresses", "customers"
   add_foreign_key "cars", "customers"
+  add_foreign_key "order_products", "orders"
+  add_foreign_key "order_products", "products"
+  add_foreign_key "order_services", "orders"
+  add_foreign_key "order_services", "services"
+  add_foreign_key "orders", "customers"
   add_foreign_key "phones", "customers"
 end

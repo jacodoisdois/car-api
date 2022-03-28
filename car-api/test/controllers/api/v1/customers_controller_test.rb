@@ -110,6 +110,6 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
              },
              as: :json
     end
-    assert_response :no_content
+    assert_response :no_content, @customer.errors.full_messages
   end
 end

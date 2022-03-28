@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  description: MyText
-  price: 9.99
-  quantity: 1
+  title: Motor fluid 5lt
+  description: Motor fluid for all kinds of motors
+  price: 1
+  quantity: 999
 
 two:
-  title: MyString
-  description: MyText
+  title: Glass cleaner 500 ml
+  description: Product made to clean car glasses
   price: 9.99
-  quantity: 1
+  quantity: 15
