@@ -5,6 +5,7 @@ class OrderTest < ActiveSupport::TestCase
     @customer = customers(:one)
 
     @product = products(:one)
+    @product_two = products(:two)
     @service = services(:one)
   end
 
@@ -17,7 +18,21 @@ class OrderTest < ActiveSupport::TestCase
     order.order_services.build({
                                  service: @service, service_duration: 10, scheduled_time: '2022-02-02 10:30'
                                })
-
     assert order.valid?, order.errors.full_messages
+  end
+
+  test 'order with valid order_total should be valid' do
+    order = Order.new(customer: @customer)
+
+    order.order_products.build({
+                                 product: @product, quantity: 10
+                               })
+
+    order.order_products.build({
+                                 product: @product_two, quantity: 10
+                               })
+    order.save
+
+    assert_equal order.total, order.products.sum(:total)
   end
 end
