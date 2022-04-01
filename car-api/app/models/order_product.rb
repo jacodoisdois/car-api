@@ -1,6 +1,6 @@
 class OrderProduct < ApplicationRecord
   before_validation :set_product_total!
-
+  before_create :decrement_product_quantity
   belongs_to :product
   belongs_to :order
 
@@ -16,4 +16,9 @@ end
 
 def set_product_total!
   self.total = product.price * quantity
+end
+
+def decrement_product_quantity
+  # To-do
+  product.decrement!(:quantity, quantity)
 end
