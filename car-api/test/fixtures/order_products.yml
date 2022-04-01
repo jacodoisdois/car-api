@@ -3,22 +3,19 @@
 one:
   order: one
   product: one
-  total: 100
   quantity: 10
+
 two:
   order: two
   product: two
   quantity: 10
-  total: 100
 
 tree:
   order: two
   product: one
   quantity: 10
-  total: 999
 
 four:
   order: two
   product: two
   quantity: 10
-  total: 999

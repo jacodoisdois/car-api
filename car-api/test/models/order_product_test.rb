@@ -15,10 +15,17 @@ class OrderProductTest < ActiveSupport::TestCase
   end
 
   test 'Order product with valid total should be valid' do
+    order_product = OrderProduct.create(order: @order, product: @product,
+                                        quantity: 10)
+
+    assert_equal order_product.total, order_product.product.price * order_product.quantity
+  end
+
+  test 'Order product with invalid total should be invalid' do
     order_product = OrderProduct.new(order: @order, product: @product,
                                      quantity: 10)
 
-    assert order_product.valid?, order_product
+    assert_not_equal order_product.total, (order_product.quantity * order_product.product.price) + 100
   end
 
   test 'Order product with invalid quantity should be invalid' do
@@ -26,5 +33,12 @@ class OrderProductTest < ActiveSupport::TestCase
                                      quantity: -1)
 
     assert_not order_product.valid?, order_product.errors.full_messages
+  end
+
+  test 'Order product with valid quantity should be valid' do
+    order_product = OrderProduct.new(order: @order, product: @product,
+                                     quantity: 10)
+
+    assert order_product.valid?, order_product.errors.full_messages
   end
 end
