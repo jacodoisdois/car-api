@@ -19,6 +19,6 @@ order.order_products.build([{
                            },
                             {
                               product: Product.new(title: 'Grease G206', description: 'Grease for mechanical keyboard', price: 1,
-                                                   quantity: 99), quantity: 10
+                                                   quantity: 99), quantity: 100
                             }])
 order.save
