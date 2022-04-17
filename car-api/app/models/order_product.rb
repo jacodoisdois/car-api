@@ -5,7 +5,8 @@ class OrderProduct < ApplicationRecord
   belongs_to :order
 
   validates :total, presence: true, numericality: { greater_or_equal_than: 0 }
-  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 1, less_than: 1001 }
+  validates :quantity, presence: true,
+                       numericality: { greater_than_or_equal_to: 1, less_than: 1001, only_integer: true }
 
   validate :total_is_the_product_between_price_and_quantity
 end
