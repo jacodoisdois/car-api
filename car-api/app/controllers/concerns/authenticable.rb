@@ -17,6 +17,6 @@ module Authenticable
   protected
 
   def check_login
-    head :forbidden unless @user.id == current_user&.id
+    head :forbidden unless self.current_user
   end
 end

@@ -1,5 +1,4 @@
 class Api::V1::CustomersController < ApplicationController
-  before_action :set_user, only: %i[show create update destroy]
   before_action :check_login, only: %i[show create update destroy]
   before_action :set_customer, only: %i[update destroy]
 
@@ -40,10 +39,6 @@ class Api::V1::CustomersController < ApplicationController
                                      ],
                                      phone_attributes: %i[id country_code local_code number],
                                      cars_attributes: %i[id model brand year color _destroy])
-  end
-
-  def set_user
-    @user = User.find(JsonWebToken.decode(request.headers['Authorization'])['user_id'])
   end
 
   def set_customer
