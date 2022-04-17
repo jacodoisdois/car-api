@@ -78,7 +78,7 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should update customer' do
     patch api_v1_customer_url(@customer),
-          params: { customer: { email: @customer.email } },
+          params: { customer: { email: 'booom@gmail.com' } },
           headers: {
             Authorization: JsonWebToken.encode(user_id: @user.id)
           },
