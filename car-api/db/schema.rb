@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 2022_03_27_231142) do
   create_table "products", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.decimal "price", null: false
-    t.integer "quantity", null: false
+    t.decimal "price"
+    t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(version: 2022_03_27_231142) do
     t.string "title"
     t.decimal "price"
     t.text "description"
+    t.datetime "scheduled_time"
+    t.integer "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
