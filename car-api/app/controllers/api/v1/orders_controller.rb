@@ -14,15 +14,32 @@ class Api::V1::OrdersController < ApplicationController
     end
   end
 
-  def index; end
+  def index
+    render json: Order.all, include: [:order_products]
+  end
 
-  def show; end
+  def show
+    render json: Order.find(params[:id]), include: [:order_products]
+  end
 
-  def destroy; end
+  def destroy
+    @order.destroy
+    head :no_content
+  end
 
-  def update; end
+  def update
+    if @order.update(order_params)
+      render json: @order, status: :ok
+    else
+      render json: @order.errors, status: :unprocessable_entity
+    end
+  end
 
   private
+
+  def set_order
+    @order = Order.find(params[:id])
+  end
 
   def order_customer
     Customer.find(params[:customer_id])
