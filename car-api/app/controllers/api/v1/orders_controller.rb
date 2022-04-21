@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < ApplicationController
-  before_action :check_login, only: %i[show create update destroy]
+  before_action :check_login, only: %i[show create update destroy index]
   before_action :set_order, only: %i[update destroy show]
   before_action :order_customer, only: %i[create]
 
