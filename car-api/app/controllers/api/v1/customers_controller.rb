@@ -1,9 +1,10 @@
 class Api::V1::CustomersController < ApplicationController
-  before_action :check_login, only: %i[show create update destroy]
-  before_action :set_customer, only: %i[update destroy]
+  include Paginable
+  before_action :check_login, only: %i[show create update destroy index]
+  before_action :set_customer, only: %i[update destroy show]
 
   def show
-    render json: Customer.find(params[:id])
+    render json: CustomerSerializer.new(@customer).serializable_hash
   end
 
   def create
@@ -27,6 +28,16 @@ class Api::V1::CustomersController < ApplicationController
   def destroy
     @customer.destroy
     head :no_content
+  end
+
+  def index
+    @customers = Customer.page(current_page)
+                         .per(per_page)
+                         .search(params)
+
+    options = get_links_serializer_options('api_v1_customers_path', @customers)
+
+    render json: CustomerSerializer.new(@customers, options).serializable_hash
   end
 
   private
