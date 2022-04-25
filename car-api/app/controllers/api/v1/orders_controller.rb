@@ -3,23 +3,32 @@ class Api::V1::OrdersController < ApplicationController
   before_action :set_order, only: %i[update destroy show]
   before_action :order_customer, only: %i[create]
 
+  include Paginable
+
   def create
-    order = Order.create! customer: order_customer
-    order.build_order_products_with_product_ids_and_quantities(order_params[:product_ids_and_quantities])
+    order = Order.new customer: order_customer
+    order.build_order_products_with_product_ids_and_quantities(order_params[:product_ids_and_quantities], order)
 
     if order.save
-      render json: order, status: :created
+      render json: OrderSerializer.new(order).serializable_hash, status: :created
     else
       render json: { errors: order.errors }, status: :forbidden
     end
   end
 
   def index
-    render json: Order.all, include: [:order_products]
+    @orders = Order.includes(:customer)
+                   .page(current_page)
+                   .per(per_page)
+                   .search(params)
+
+    options = get_links_serializer_options('api_v1_orders_path', @orders)
+
+    render json: OrderSerializer.new(@orders, options).serializable_hash
   end
 
   def show
-    render json: Order.find(params[:id]), include: [:order_products]
+    render json: OrderSerializer.new(@order).serializable_hash, include: [:order_products]
   end
 
   def destroy
@@ -29,9 +38,9 @@ class Api::V1::OrdersController < ApplicationController
 
   def update
     if @order.update(order_params)
-      render json: @order, status: :ok
+      render json: OrderSerializer.new(@order).serializable_hash, status: :ok
     else
-      render json: @order.errors, status: :unprocessable_entity
+      render json: { errors: order.errors }, status: :unprocessable_entity
     end
   end
 
