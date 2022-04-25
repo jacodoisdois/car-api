@@ -11,15 +11,15 @@ class Api::V1::CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      render json: @customer, include: [:addresses], status: :created
+      render json: CustomerSerializer.new(@customer).serializable_hash, status: :created
     else
-      render json: @customer.errors, status: :unprocessable_entity
+      render json: { errors: @customer.errors }, status: :unprocessable_entity
     end
   end
 
   def update
     if @customer.update(customer_params)
-      render json: @customer, status: :ok
+      render json: CustomerSerializer.new(@customer).serializable_hash, status: :ok
     else
       render json: @customer.errors, status: :unprocessable_entity
     end
@@ -48,7 +48,7 @@ class Api::V1::CustomersController < ApplicationController
                                      addresses_attributes: %i[
                                        id address district city state zip_code number _destroy
                                      ],
-                                     phone_attributes: %i[id country_code local_code number],
+                                     phone_attributes: %i[id country_code local_code number _destroy],
                                      cars_attributes: %i[id model brand year color _destroy])
   end
 
