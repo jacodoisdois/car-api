@@ -17,8 +17,8 @@ class Customer < ApplicationRecord
     where("(lower(name) LIKE '%#{keyword.downcase}%' or lower(email) LIKE '%#{keyword.downcase}%') ")
   }
 
-  scope :recent, lambda { |_order|
-    _order == 'true' ? order(created_at: :desc) : order(created_at: :asc)
+  scope :recent, lambda { |order|
+    order == 'true' ? order(created_at: :desc) : order(created_at: :asc)
   }
 
   def self.search(params = {})
