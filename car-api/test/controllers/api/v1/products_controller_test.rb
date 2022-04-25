@@ -24,7 +24,12 @@ class Api::V1::ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     json_response = JSON.parse(response.body)
-    assert_equal @product.id, json_response['id']
+    assert_equal @product.id, Integer(json_response['data']['id'])
+  end
+
+  test 'should unauthorized for unlogged' do
+    get api_v1_products_url, as: :json
+    assert_response :unauthorized
   end
 
   test 'should get create' do
