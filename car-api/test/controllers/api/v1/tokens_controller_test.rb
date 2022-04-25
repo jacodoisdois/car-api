@@ -9,7 +9,7 @@ class Api::V1::TokensControllerTest < ActionDispatch::IntegrationTest
     post api_v1_tokens_url,
          params: {
            user: {
-             email: @user.email,
+             input: @user.email,
              password: 'password'
            }
          },
@@ -24,7 +24,7 @@ class Api::V1::TokensControllerTest < ActionDispatch::IntegrationTest
     post api_v1_tokens_url,
          params: {
            user: {
-             email: @user.email,
+             input: @user.email,
              password: 'pass'
            }
          },
