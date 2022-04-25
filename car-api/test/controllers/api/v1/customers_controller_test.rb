@@ -15,7 +15,7 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     json_response = JSON.parse(response.body)
-    assert_equal @customer.id, json_response['id']
+    assert_equal @customer.id, Integer(json_response['data']['id'])
   end
 
   test 'should create customer' do
@@ -57,6 +57,21 @@ class Api::V1::CustomersControllerTest < ActionDispatch::IntegrationTest
            as: :json
       assert_response :created
     end
+  end
+
+  test 'should show customers' do
+    get api_v1_customers_url,
+        headers: {
+          Authorization: JsonWebToken.encode(user_id: @user.id)
+        }, as: :json
+
+    assert_response :success
+  end
+
+  test 'should return unauthorized for unlogged' do
+    get api_v1_customers_url, as: :json
+
+    assert_response :unauthorized
   end
 
   test 'should not create customer with taken email' do
