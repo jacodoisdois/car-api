@@ -41,6 +41,11 @@ class Api::V1::OrdersControllerTest < ActionDispatch::IntegrationTest
         headers: { Authorization: @auth },
         as: :json
 
+    orders = Order.all
+
+    json_response = JSON.parse(response.body, symbolize_names: true)
+    assert_equal orders.count, json_response[:data].count
+    assert_json_response_is_paginated json_response
     assert_response :success
   end
 
