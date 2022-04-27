@@ -2,12 +2,12 @@
 
 one:
   email: teste123@gmail.com
-  password_digest: <%= BCrypt::Password.create('password') %>
+  password_digest: <%= BCrypt::Password.create('Password@1233') %>
   name: User Silva use
   nickname: pedrogamer
 
 two:
   email: teste12333@gmail.com
-  password_digest: <%= BCrypt::Password.create('password') %>
+  password_digest: <%= BCrypt::Password.create('Password@1233') %>
   name: User use
   nickname: pedrogamersantos

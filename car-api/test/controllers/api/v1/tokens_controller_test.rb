@@ -10,7 +10,7 @@ class Api::V1::TokensControllerTest < ActionDispatch::IntegrationTest
          params: {
            user: {
              input: @user.email,
-             password: 'password'
+             password: 'Password@1233'
            }
          },
          as: :json

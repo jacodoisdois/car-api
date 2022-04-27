@@ -43,11 +43,11 @@ class Api::V1::UsersController < ApplicationController
     head :no_content
   end
 
+  private
+
   def set_user
     @user = User.find(params[:id])
   end
-
-  private
 
   def user_params
     params.require(:user).permit(:id, :email, :nickname, :password, :name)

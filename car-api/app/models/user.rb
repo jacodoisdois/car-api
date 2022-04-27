@@ -3,12 +3,16 @@ class User < ApplicationRecord
                     presence: true
   validates :nickname, uniqueness: true
   validates :password_digest, presence: true, allow_blank: false
-  validates :password, presence: true, allow_blank: false,
-                       format: { with: /(?=.*[!@#$%^&*])(?=.*[0-9])/,
-                                 message: 'The password must have at least one special character and numbers' },
-                       length: { minimum: 8, maximum: 100 }
 
   has_secure_password
+
+  with_options if: :password do
+    validates :password, presence: true, allow_blank: false,
+                         format: { with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$\z/,
+                                   message:
+              'The password must have 8 characters, at least 1 ' \
+              'uppercase, 1 lowercase, 1 number and 1 special character' }
+  end
 
   scope :filter_by_name, lambda { |keyword|
                            where("(lower(description) LIKE '%#{keyword.downcase}%' or
@@ -30,5 +34,12 @@ class User < ApplicationRecord
     users = users.recent(params[:recent]) if params[:recent].present?
 
     users
+  end
+
+  attr_reader :password
+
+  def password=(raw)
+    @password = raw
+    self.password_digest = BCrypt::Password.create(raw)
   end
 end

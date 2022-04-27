@@ -25,7 +25,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
              user: {
                name: 'Jonas brother',
                email: 'jonasjohn@gmail.com',
-               password: '123456as',
+               password: '123A6a@123s',
                nickname: 'buxodegalo'
              }
            },
@@ -40,7 +40,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
            params: {
              user: {
                email: @user.email,
-               password: '12312333',
+               password: '123456a@123s',
                name: 'User name',
                nickname: 'usuariotestado'
              }
@@ -56,7 +56,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
            params: {
              user: {
                email: 'joaosantos@gmail.com',
-               password: '12312333',
+               password: '123456a@123s',
                name: 'User name',
                nickname: @user.nickname
              }
@@ -86,7 +86,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
           params: { user:
             {
               email: 'bad_email',
-              password: '123456',
+              password: '123456a@123s',
               name: 'Brincan ciclan',
               nickname: 'jackiechan'
             } },
