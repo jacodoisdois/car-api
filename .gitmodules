@@ -1,0 +1,3 @@
+[submodule "car-api/public/swagger"]
+	path = car-api/public/swagger
+	url = https://github.com/swagger-api/swagger-ui.git

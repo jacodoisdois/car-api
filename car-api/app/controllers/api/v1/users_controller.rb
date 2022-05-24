@@ -1,10 +1,10 @@
 # User Controller
 class Api::V1::UsersController < ApplicationController
+  include Paginable
+
   before_action :set_user, only: %i[show update destroy]
   before_action :check_owner, only: %i[update destroy]
   before_action :check_login, only: %i[index update destroy show]
-
-  include Paginable
 
   def index
     @users = User.page(current_page)
