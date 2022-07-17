@@ -16,7 +16,7 @@ RSpec.configure do |config|
   # the root example_group in your specs, e.g. describe '...', swagger_doc: 'v2/swagger.json'
   config.swagger_docs = {
     'v1/swagger.yaml' => {
-      openapi: '3.0.1',
+      openapi: '3.0.0',
       info: {
         title: 'API V1',
         version: 'v1'
@@ -24,13 +24,25 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: 'http://{defaultHost}',
           variables: {
             defaultHost: {
               default: '127.0.0.1:3000/'
             }
           }
         }
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: :http,
+            scheme: :bearer,
+            bearerFormat: ''
+          }
+        }
+      },
+      security: [
+        { bearerAuth: [] }
       ]
     }
   }

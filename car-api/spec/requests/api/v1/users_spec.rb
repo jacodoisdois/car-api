@@ -2,8 +2,11 @@ require 'swagger_helper'
 
 RSpec.describe 'api/v1/users', type: :request do
   path '/api/v1/users' do
-    get('list users') do
-      response(200, 'successful') do
+    get('List all users') do
+      tags 'Users'
+      let(:Authorization) { '<token-here>' }
+
+      response(200, 'Successful') do
         after do |example|
           example.metadata[:response][:content] = {
             'application/json' => {
@@ -13,25 +16,30 @@ RSpec.describe 'api/v1/users', type: :request do
         end
         run_test!
       end
+
+      response(401, 'Authentication Failed') do
+        let(:Authorization) { 'Invalid' }
+        run_test!
+      end
     end
 
-    post('create user') do
-      parameter name: 'Authorization', in: :header, type: :string, description: 'Authorization'
-      let(:Authorization) { 'Bearer <token-here>' }
+    post('Create User') do
+      tags 'Users'
       consumes 'application/json'
-
-      parameter name: 'body', in: :body, required: true, schema: {
+      parameter name: :user, required: true, in: :body, schema: {
         type: :object,
         properties: {
-          title: { type: :string },
-          author_email: { type: :email }
+          user: {
+            type: :object,
+            properties: {
+              email: { type: :string },
+              name: { type: :string },
+              nickname: { type: :string },
+              password: { type: :string }
+            }
+          }
         }
       }
-      let(:body) do
-        { post:
-          { title: 'my example',
-            author_email: 'me@example.com' } }
-      end
 
       response(201, 'created') do
         after do |example|
@@ -43,70 +51,114 @@ RSpec.describe 'api/v1/users', type: :request do
         end
         run_test!
       end
-    end
-  end
 
-  path '/api/v1/users/{id}' do
-    # You'll want to customize the parameter types...
-    parameter name: 'id', in: :path, type: :string, description: 'id'
+      response(401, 'Authentication Failed') do
+        let(:Authorization) { 'Invalid' }
+        run_test!
+      end
 
-    get('show user') do
-      response(200, 'successful') do
-        let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+      response(422, 'Invalid User') do
+        let(:user) { 'Invalid' }
         run_test!
       end
     end
 
-    patch('update user') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+    path '/api/v1/users/{id}' do
+      parameter name: 'id', in: :path, required: true, type: :string, description: 'id'
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+      get('Show User') do
+        tags 'Users'
+
+        let(:Authorization) { 'Bearer <token-here>' }
+        response(200, 'Successful') do
+          let(:id) { '12' }
+          after do |example|
+            example.metadata[:response][:content] = {
+              'application/json' => {
+                example: JSON.parse(response.body, symbolize_names: true)
+              }
             }
-          }
+          end
+          run_test!
         end
-        run_test!
+
+        response(401, 'Authentication Failed') do
+          let(:Authorization) { 'Invalid' }
+          run_test!
+        end
+
+        response(404, 'User not found') do
+          let(:id) { 'Invalid Id' }
+          run_test!
+        end
       end
-    end
 
-    put('update user') do
-      response(200, 'successful') do
-        let(:id) { '123' }
+      delete('Delete User') do
+        tags 'Users'
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+        response(200, 'Successful') do
+          let(:id) { '123' }
+
+          after do |example|
+            example.metadata[:response][:content] = {
+              'application/json' => {
+                example: JSON.parse(response.body, symbolize_names: true)
+              }
             }
-          }
+          end
+          run_test!
         end
-        run_test!
+        response(401, 'Authentication Failed') do
+          let(:Authorization) { 'Invalid' }
+          run_test!
+        end
+
+        response(403, 'Only the owner of the user can delete it.') do
+          let(:id) { 'Invalid' }
+          run_test!
+        end
       end
-    end
 
-    delete('delete user') do
-      response(200, 'successful') do
-        let(:id) { '123' }
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
+      patch('Update User') do
+        tags 'Users'
+        consumes 'application/json'
+        parameter name: :user, required: false, in: :body, schema: {
+          type: :object,
+          properties: {
+            user: {
+              type: :object,
+              properties: {
+                email: { type: :string },
+                name: { type: :string },
+                nickname: { type: :string },
+                password: { type: :string }
+              }
             }
           }
+        }
+
+        response(200, 'Successful') do
+          let(:id) { '123' }
+
+          after do |example|
+            example.metadata[:response][:content] = {
+              'application/json' => {
+                example: JSON.parse(response.body, symbolize_names: true)
+              }
+            }
+          end
+          run_test!
         end
-        run_test!
+
+        response(401, 'Authentication Failed') do
+          let(:Authorization) { 'Invalid' }
+          run_test!
+        end
+
+        response(422, 'Invalid User') do
+          let(:user) { 'Invalid User' }
+          run_test!
+        end
       end
     end
   end

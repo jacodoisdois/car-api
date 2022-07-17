@@ -1,67 +1,118 @@
 ---
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   title: API V1
   version: v1
 paths:
   "/api/v1/users":
     get:
-      summary: list users
+      summary: List all users
+      tags:
+      - Users
       responses:
         '200':
-          description: successful
+          description: Successful
+        '401':
+          description: Authentication Failed
     post:
-      summary: create user
-      parameters:
-      - name: Authorization
-        in: header
-        description: Authorization
-        schema:
-          type: string
+      summary: Create User
+      tags:
+      - Users
+      parameters: []
       responses:
         '201':
           description: created
+        '401':
+          description: Authentication Failed
+        '422':
+          description: Invalid User
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                title:
-                  type: string
-                author_email:
-                  type: email
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    name:
+                      type: string
+                    nickname:
+                      type: string
+                    password:
+                      type: string
         required: true
   "/api/v1/users/{id}":
     parameters:
     - name: id
       in: path
-      description: id
       required: true
+      description: id
       schema:
         type: string
     get:
-      summary: show user
+      summary: Show User
+      tags:
+      - Users
       responses:
         '200':
-          description: successful
-    patch:
-      summary: update user
-      responses:
-        '200':
-          description: successful
-    put:
-      summary: update user
-      responses:
-        '200':
-          description: successful
+          description: Successful
+        '401':
+          description: Authentication Failed
+        '404':
+          description: User not found
     delete:
-      summary: delete user
+      summary: Delete User
+      tags:
+      - Users
       responses:
         '200':
-          description: successful
+          description: Successful
+        '401':
+          description: Authentication Failed
+        '403':
+          description: Only the owner of the user can delete it.
+    patch:
+      summary: Update User
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: Successful
+        '401':
+          description: Authentication Failed
+        '422':
+          description: Invalid User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    name:
+                      type: string
+                    nickname:
+                      type: string
+                    password:
+                      type: string
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: 127.0.0.1:3000/
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: ''
+security:
+- bearerAuth: []
